@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "822044559146",
+    "project_id": "kisanbazaar-13343",
+    "storage_bucket": "kisanbazaar-13343.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:822044559146:android:1a044cdc41384e789a0053",
+        "android_client_info": {
+          "package_name": "com.example.kisanbazaar"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4gerBAJU4BwNbhJBSnz6mM0TznnkY6gc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
