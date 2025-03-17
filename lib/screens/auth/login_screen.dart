@@ -1,3 +1,6 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:kisanbazaar/screens/auth/signup_screen.dart';
 
@@ -9,9 +12,44 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _isLoading = false;
+
+  Future<void> login() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      await _auth.signInWithEmailAndPassword(
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim(),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Login successful!"),
+          backgroundColor: Colors.green,
+        ),
+      );
+    } on FirebaseAuthException catch (e) {
+      String errorMessage = "An error occurred";
+      if (e.code == 'user-not-found') {
+        errorMessage = "No user found with this email.";
+      } else if (e.code == 'wrong-password') {
+        errorMessage = "Incorrect password. Try again.";
+      }
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(errorMessage), backgroundColor: Colors.red),
+      );
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +113,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                  onPressed: _isLoading ? null : () {},
+                  onPressed: _isLoading ? null : login,
                   child: _isLoading
                       ? const CircularProgressIndicator(color: Colors.white)
                       : const Text(
@@ -114,4 +152,3 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 }
-
